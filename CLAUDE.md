@@ -9,6 +9,12 @@ desktop client. The server is implemented. The client is
 being migrated from WPF/.NET 8 to Tauri v2
 (Rust + TypeScript).
 
+## Codex CLI - Code REVIEW
+After builds, run Codex for a second opinion:
+
+codex exec --sandbox read-only \
+"Review for bugs and logic errors"
+
 ## Reference Files (read before implementing)
 
 - **CHATSERVER.md** -- Master spec: phases, tasks, security
@@ -198,3 +204,54 @@ go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 - **E2E tests**: Login flow, chat send/receive, channel
   switching
 - See TESTING-STRATEGY.md for full details.
+
+# Zettelkasten Knowledge Base (Obsidian)
+
+## Vault Location
+`D:\Local-Lab\Coding\Repos\OwnCord\Obsidian-Brain\BIGBRAIN`
+
+## When to Write Notes
+After completing any meaningful task — a bug fix, architectural decision, new pattern learned, tool configured, or problem solved — create or update a Zettelkasten note capturing the insight.
+
+## Folder Structure
+```
+BIGBRAIN/
+├── 0-inbox/          # Fleeting notes, quick captures
+├── 1-zettel/         # Permanent atomic notes (the core)
+├── 2-projects/       # Project-specific MOCs (Maps of Content)
+├── 3-resources/      # Reference material, snippets, configs
+└── templates/        # Note templates
+```
+
+## Note Format
+Every note in `1-zettel/` uses this template:
+
+```markdown
+---
+id: {{YYYYMMDDHHMMSS}}
+title: "Short descriptive title"
+tags: [tag1, tag2]
+created: {{YYYY-MM-DD}}
+---
+
+# {{title}}
+
+One atomic idea expressed clearly in a few paragraphs.
+
+## Context
+Why this matters or when it applies.
+
+## Related
+- [[link-to-related-note]]
+- [[another-related-note]]
+```
+
+## Rules
+1. **Atomic**: One idea per note. If you're covering two concepts, split into two notes.
+2. **Linked**: Always add `[[wikilinks]]` to related existing notes. Search the vault first.
+3. **Own words**: Write insights in plain language, not raw copy-paste from docs.
+4. **ID as filename**: Name files as `{{YYYYMMDDHHMMSS}}-short-slug.md` (e.g., `20260316143022-pyodbc-to-mssql-migration.md`).
+5. **Inbox first**: If unsure about permanence, drop it in `0-inbox/` for later review.
+6. **Project MOCs**: Each active project gets a Map of Content in `2-projects/` that links to all relevant zettels.
+7. **Search before creating**: Before creating a new note, search existing notes to avoid duplicates and find linking opportunities.
+
