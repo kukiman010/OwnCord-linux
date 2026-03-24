@@ -147,7 +147,7 @@ OwnCord/
 
 ```bash
 cd Server
-go build -o chatserver.exe -ldflags "-s -w -X main.version=1.3.0" .
+go build -o chatserver.exe -ldflags "-s -w -X main.version=1.2.0" .
 go test ./...                        # all tests
 go test ./... -cover                 # with coverage
 ```
@@ -156,6 +156,9 @@ go test ./... -cover                 # with coverage
 
 ```bash
 cd Client/tauri-client
+
+# Install dependencies (first time only)
+npm install
 
 # Development (hot reload)
 npm run tauri dev
@@ -167,8 +170,12 @@ npm run tauri build
 npm test                             # all tests (vitest)
 npm run test:unit                    # unit tests only
 npm run test:integration             # integration tests
-npm run test:e2e                     # Playwright E2E tests
-npm run test:coverage                # with coverage report
+npm run test:e2e                     # Playwright E2E (mocked Tauri)
+npm run test:e2e:native              # Playwright E2E (real Tauri exe + CDP)
+npm run test:e2e:prod                # Playwright E2E (prod build)
+npm run test:e2e:ui                  # Playwright UI mode
+npm run test:watch                   # watch mode for tests
+npm run test:coverage                # coverage report
 ```
 
 ### Dev Tools
