@@ -5,10 +5,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
-	"os/exec"
 	"path/filepath"
-	"runtime"
-	"syscall"
 	"time"
 
 	"github.com/owncord/server/updater"
@@ -139,6 +136,7 @@ func handleApplyUpdate(u *updater.Updater, hub HubBroadcaster, _ string) http.Ha
 	})
 }
 
+
 // spawnDetached starts a new process that is not attached to the current one.
 func spawnDetached(exePath string, args []string) error {
 	cmd := exec.Command(exePath, args...) //nolint:gosec // G204: command path from trusted server config
@@ -153,3 +151,4 @@ func spawnDetached(exePath string, args []string) error {
 
 	return cmd.Start()
 }
+
