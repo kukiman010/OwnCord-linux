@@ -7,7 +7,7 @@ Production deployment guide for OwnCord server on Windows.
 - **Windows 10+** (x64)
 - **Go 1.25+** (only if building from source)
 - **LiveKit Server** binary (for voice/video) -- see [LiveKit Setup](livekit-setup.md)
-- Ports available: `8443` (default), `7880` (LiveKit), `80` (if using ACME/Let's Encrypt)
+- Ports available: `8444` (default), `7880` (LiveKit), `80` (if using ACME/Let's Encrypt)
 
 ## Building from Source
 
@@ -30,9 +30,9 @@ When `chatserver.exe` starts for the first time:
 3. **TLS certificate** -- A self-signed certificate is generated at `data/cert.pem` / `data/key.pem`
 4. **Database migration** -- SQLite database is created and all migrations run
 5. **Status reset** -- All user statuses are set to `offline`, stale voice states are cleared
-6. **Admin setup page** -- Navigate to `https://localhost:8443/admin` to create the Owner account
+6. **Admin setup page** -- Navigate to `https://localhost:8444/admin` to create the Owner account
 
-The server listens on `https://0.0.0.0:8443` by default. See [Server Configuration](server-configuration.md) for all options.
+The server listens on `https://0.0.0.0:8444` by default. See [Server Configuration](server-configuration.md) for all options.
 
 ## Running as a Windows Service
 
@@ -128,7 +128,7 @@ Use Windows Task Scheduler with PowerShell:
 
 ```powershell
 $headers = @{ "Cookie" = "session=<admin-session-token>" }
-Invoke-RestMethod -Uri "https://localhost:8443/admin/api/backup" -Method POST -Headers $headers -SkipCertificateCheck
+Invoke-RestMethod -Uri "https://localhost:8444/admin/api/backup" -Method POST -Headers $headers -SkipCertificateCheck
 ```
 
 ### Restore
@@ -200,7 +200,7 @@ The Tauri client uses NSIS installer updates:
 
 | Port | Protocol | Purpose |
 |------|----------|---------|
-| `8443` | TCP | HTTPS server (configurable via `server.port`) |
+| `8444` | TCP | HTTPS server (configurable via `server.port`) |
 | `80` | TCP | ACME HTTP-01 challenge (only if `tls.mode: acme`) |
 | `7880` | TCP | LiveKit server (WebSocket signaling) |
 | `7881` | TCP | LiveKit server (RTC/TURN over TCP) |

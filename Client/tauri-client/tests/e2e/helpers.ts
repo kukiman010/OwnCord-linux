@@ -226,7 +226,7 @@ export const MOCK_INVITES = [
   {
     id: 1,
     code: "abc123",
-    url: "https://localhost:8443/invite/abc123",
+    url: "https://localhost:8444/invite/abc123",
     use_count: 3,
     max_uses: 10,
     expires_at: "2026-04-15T00:00:00Z",
@@ -234,7 +234,7 @@ export const MOCK_INVITES = [
   {
     id: 2,
     code: "xyz789",
-    url: "https://localhost:8443/invite/xyz789",
+    url: "https://localhost:8444/invite/xyz789",
     use_count: 0,
     max_uses: 1,
     expires_at: null,
@@ -803,7 +803,7 @@ export async function mockTauriLoginError(page: Page): Promise<void> {
 // ---------------------------------------------------------------------------
 
 export async function submitLogin(page: Page): Promise<void> {
-  await page.locator("#host").fill("localhost:8443");
+  await page.locator("#host").fill("localhost:8444");
   await page.locator("#username").fill("testuser");
   await page.locator("#password").fill("password123");
   await page.locator("button.btn-primary[type='submit']").click();

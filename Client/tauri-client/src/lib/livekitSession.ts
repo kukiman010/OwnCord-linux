@@ -359,6 +359,7 @@ export class LiveKitSession {
     } else {
       hostWithPort = this.serverHost.includes(":") ? this.serverHost : `${this.serverHost}:443`;
     }
+
     this.liveKitProxyPort = await invoke<number>("start_livekit_proxy", {
       remoteHost: hostWithPort,
     });

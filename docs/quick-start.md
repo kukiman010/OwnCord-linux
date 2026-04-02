@@ -37,13 +37,13 @@ Run `chatserver.exe`. On first run:
 4. SQLite database is created and all migrations are applied
 5. All user statuses are reset to offline (clean slate)
 
-The server starts on `https://0.0.0.0:8443`.
+The server starts on `https://0.0.0.0:8444`.
 
 See [Server Configuration](server-configuration.md) for the full config key reference and environment variable overrides.
 
 ## Step 3: Admin Setup
 
-Open `https://localhost:8443/admin` in a browser. The first-run setup page will prompt you to create the Owner account (username + password). This user gets the Owner role with full server control.
+Open `https://localhost:8444/admin` in a browser. The first-run setup page will prompt you to create the Owner account (username + password). This user gets the Owner role with full server control.
 
 ## Step 4: Create Invites
 
@@ -51,7 +51,7 @@ In the admin panel, go to invite management and generate invite codes for your f
 
 ## Step 5: Connect Clients
 
-Friends install OwnCord, enter your server address (IP or domain + port 8443), and redeem their invite code to register.
+Friends install OwnCord, enter your server address (IP or domain + port 8444), and redeem their invite code to register.
 
 The client uses TOFU (Trust On First Use) for self-signed certificates -- it will prompt to trust the server's certificate on first connection, then pin it for future sessions.
 

@@ -78,7 +78,7 @@ type UploadConfig struct {
 func defaults() Config {
 	return Config{
 		Server: ServerConfig{
-			Port:           8443,
+			Port:           8444,
 			Name:           "OwnCord Server",
 			DataDir:        "data",
 			AllowedOrigins: []string{},
@@ -116,7 +116,7 @@ func defaults() Config {
 // defaultYAML is the content written when no config file is present.
 const defaultYAML = `# OwnCord Server Configuration
 server:
-  port: 8443
+  port: 8444
   name: "OwnCord Server"
   data_dir: "data"
   # allowed_origins: []       # empty = deny cross-origin; set to ["*"] for dev or specific origins for prod

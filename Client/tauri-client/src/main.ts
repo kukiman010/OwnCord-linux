@@ -300,7 +300,7 @@ function renderPage(pageId: "connect" | "main"): void {
       const saved = profileManager.getAll();
       if (saved.length > 0) return saved;
       // Fallback: show a default local server entry
-      return [{ name: "Local Server", host: "localhost:8443" }];
+      return [{ name: "Local Server", host: "localhost:8444" }];
     }
 
     // Auto-save a profile for a host after successful login (if not already saved)

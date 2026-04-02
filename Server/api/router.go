@@ -156,7 +156,7 @@ func NewRouter(cfg *config.Config, database *db.DB, ver string, logBuf *admin.Ri
 
 		// Reverse proxy LiveKit signaling through OwnCord's HTTPS server.
 		// This avoids mixed-content blocks (secure page → insecure WS).
-		// Client connects to wss://server:8443/livekit/* → ws://localhost:7880/*
+		// Client connects to wss://server:8444/livekit/* → ws://localhost:7880/*
 		//
 		// NOTE: AuthMiddleware is intentionally omitted. The LiveKit JS SDK's
 		// signal requests don't carry OwnCord session tokens — authentication

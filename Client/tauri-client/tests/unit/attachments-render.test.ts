@@ -96,7 +96,7 @@ import {
 describe("resolveServerUrl", () => {
   beforeEach(() => {
     // Reset server host to a known value
-    setServerHost("myserver.local:8443");
+    setServerHost("myserver.local:8444");
   });
 
   it("returns absolute http URLs unchanged", () => {
@@ -111,7 +111,7 @@ describe("resolveServerUrl", () => {
 
   it("prepends server host for relative paths", () => {
     expect(resolveServerUrl("/api/v1/attachments/1.png")).toBe(
-      "https://myserver.local:8443/api/v1/attachments/1.png",
+      "https://myserver.local:8444/api/v1/attachments/1.png",
     );
   });
 
@@ -189,11 +189,11 @@ describe("isSafeUrl", () => {
 
 describe("isTrustedServerUrl", () => {
   beforeEach(() => {
-    setServerHost("myserver.local:8443");
+    setServerHost("myserver.local:8444");
   });
 
   it("returns true for the configured server host", () => {
-    expect(isTrustedServerUrl("https://myserver.local:8443/file.png")).toBe(true);
+    expect(isTrustedServerUrl("https://myserver.local:8444/file.png")).toBe(true);
   });
 
   it("returns false for a different host", () => {
@@ -222,13 +222,13 @@ describe("renderAttachment — non-image file", () => {
     saveMock.mockReset();
     writeFileMock.mockReset();
     clearAttachmentCaches();
-    setServerHost("myserver.local:8443");
+    setServerHost("myserver.local:8444");
   });
 
   it("renders a file attachment with name, size, and download button", () => {
     const el = renderAttachment({
       id: "1",
-      url: "https://myserver.local:8443/file.zip",
+      url: "https://myserver.local:8444/file.zip",
       filename: "archive.zip",
       size: 2048,
       mime: "application/zip",
@@ -249,7 +249,7 @@ describe("renderAttachment — non-image file", () => {
 
     const el = renderAttachment({
       id: "1",
-      url: "https://myserver.local:8443/file.zip",
+      url: "https://myserver.local:8444/file.zip",
       filename: "archive.zip",
       size: 2048,
       mime: "application/zip",
@@ -276,7 +276,7 @@ describe("renderAttachment — non-image file", () => {
 
     const el = renderAttachment({
       id: "1",
-      url: "https://myserver.local:8443/file.zip",
+      url: "https://myserver.local:8444/file.zip",
       filename: "archive.zip",
       size: 2048,
       mime: "application/zip",
@@ -295,7 +295,7 @@ describe("renderAttachment — non-image file", () => {
 
     const el = renderAttachment({
       id: "1",
-      url: "https://myserver.local:8443/file.zip",
+      url: "https://myserver.local:8444/file.zip",
       filename: "archive.zip",
       size: 2048,
       mime: "application/zip",
@@ -319,7 +319,7 @@ describe("renderAttachment — image with dimensions", () => {
   beforeEach(() => {
     clearAttachmentCaches();
     fetchMock.mockReset();
-    setServerHost("myserver.local:8443");
+    setServerHost("myserver.local:8444");
   });
 
   it("reserves space when width and height are provided", () => {
@@ -331,7 +331,7 @@ describe("renderAttachment — image with dimensions", () => {
 
     const el = renderAttachment({
       id: "1",
-      url: "https://myserver.local:8443/img.png",
+      url: "https://myserver.local:8444/img.png",
       filename: "img.png",
       size: 1000,
       mime: "image/png",
@@ -354,7 +354,7 @@ describe("renderAttachment — image with dimensions", () => {
 
     const el = renderAttachment({
       id: "1",
-      url: "https://myserver.local:8443/img.png",
+      url: "https://myserver.local:8444/img.png",
       filename: "img.png",
       size: 1000,
       mime: "image/png",
@@ -368,12 +368,12 @@ describe("fetchImageAsDataUrl — network fetch failure", () => {
   beforeEach(() => {
     clearAttachmentCaches();
     fetchMock.mockReset();
-    setServerHost("myserver.local:8443");
+    setServerHost("myserver.local:8444");
   });
 
   it("returns null when fetch response is not ok", async () => {
     fetchMock.mockResolvedValue({ ok: false });
-    const result = await fetchImageAsDataUrl("https://myserver.local:8443/img.png");
+    const result = await fetchImageAsDataUrl("https://myserver.local:8444/img.png");
     expect(result).toBeNull();
   });
 
@@ -416,9 +416,9 @@ describe("fetchImageAsDataUrl — network fetch failure", () => {
     });
 
     // Fetch a server URL
-    await fetchImageAsDataUrl("https://myserver.local:8443/img.png");
+    await fetchImageAsDataUrl("https://myserver.local:8444/img.png");
     expect(fetchMock).toHaveBeenCalledWith(
-      "https://myserver.local:8443/img.png",
+      "https://myserver.local:8444/img.png",
       expect.objectContaining({
         danger: expect.objectContaining({ acceptInvalidCerts: true }),
       }),

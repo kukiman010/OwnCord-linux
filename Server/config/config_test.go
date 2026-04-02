@@ -23,7 +23,7 @@ func TestLoadDefaults(t *testing.T) {
 		got  any
 		want any
 	}{
-		{"Server.Port", cfg.Server.Port, 8443},
+		{"Server.Port", cfg.Server.Port, 8444},
 		{"Server.Name", cfg.Server.Name, "OwnCord Server"},
 		{"Server.DataDir", cfg.Server.DataDir, "data"},
 		{"Database.Path", cfg.Database.Path, "data/chatserver.db"},

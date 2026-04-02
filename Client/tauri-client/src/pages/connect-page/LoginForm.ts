@@ -191,7 +191,7 @@ export function createLoginForm(opts: LoginFormOptions): LoginFormApi {
     form.setAttribute("novalidate", "");
 
     // Host
-    const hostGroup = buildFormGroup("host", "Server Address", "text", "localhost:8443");
+    const hostGroup = buildFormGroup("host", "Server Address", "text", "localhost:8444");
     hostInput = qs("input", hostGroup)!;
 
     // Username

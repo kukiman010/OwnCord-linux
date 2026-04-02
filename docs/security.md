@@ -95,6 +95,6 @@ The Tauri desktop client implements the following security measures:
 - [ ] Configure rate limits (defaults are sensible but review for your use case)
 - [ ] Run regular backups via the admin panel
 - [ ] Keep the server updated (admin panel shows available updates)
-- [ ] Firewall: only expose port 8443 (HTTPS) and 7880 (LiveKit WebSocket for voice/video)
+- [ ] Firewall: only expose port 8444 (HTTPS) and 7880 (LiveKit WebSocket for voice/video)
 - [ ] Enable server-wide 2FA requirement once all users have enrolled
 - [ ] Set `admin_allowed_cidrs` to restrict admin panel access to trusted networks

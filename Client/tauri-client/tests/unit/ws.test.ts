@@ -77,21 +77,21 @@ describe("WebSocket Client (Tauri proxy)", () => {
   it("transitions to connecting on connect", async () => {
     const states: ConnectionState[] = [];
     client.onStateChange((s) => states.push(s));
-    client.connect({ host: "localhost:8443", token: "test-token" });
+    client.connect({ host: "localhost:8444", token: "test-token" });
     await vi.advanceTimersByTimeAsync(10);
     expect(states).toContain("connecting");
   });
 
   it("calls ws_connect with correct URL", async () => {
-    client.connect({ host: "localhost:8443", token: "test-token" });
+    client.connect({ host: "localhost:8444", token: "test-token" });
     await vi.advanceTimersByTimeAsync(10);
     expect(mockInvoke).toHaveBeenCalledWith("ws_connect", {
-      url: "wss://localhost:8443/api/v1/ws",
+      url: "wss://localhost:8444/api/v1/ws",
     });
   });
 
   it("sends auth message when Rust reports open", async () => {
-    client.connect({ host: "localhost:8443", token: "test-token" });
+    client.connect({ host: "localhost:8444", token: "test-token" });
     await vi.advanceTimersByTimeAsync(10);
 
     // Simulate Rust reporting connection open
@@ -107,7 +107,7 @@ describe("WebSocket Client (Tauri proxy)", () => {
   });
 
   it("transitions to connected on auth_ok", async () => {
-    client.connect({ host: "localhost:8443", token: "test-token" });
+    client.connect({ host: "localhost:8444", token: "test-token" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -130,7 +130,7 @@ describe("WebSocket Client (Tauri proxy)", () => {
   });
 
   it("dispatches messages to typed listeners", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -157,7 +157,7 @@ describe("WebSocket Client (Tauri proxy)", () => {
   });
 
   it("unsubscribe removes listener", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -185,7 +185,7 @@ describe("WebSocket Client (Tauri proxy)", () => {
   });
 
   it("auth_error does NOT trigger reconnect", async () => {
-    client.connect({ host: "localhost:8443", token: "bad-token" });
+    client.connect({ host: "localhost:8444", token: "bad-token" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -207,7 +207,7 @@ describe("WebSocket Client (Tauri proxy)", () => {
   });
 
   it("reconnects on unexpected close with backoff", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -238,7 +238,7 @@ describe("WebSocket Client (Tauri proxy)", () => {
   });
 
   it("send returns correlation ID", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -252,7 +252,7 @@ describe("WebSocket Client (Tauri proxy)", () => {
 
   it("drops oversized messages", async () => {
     client.connect({
-      host: "localhost:8443",
+      host: "localhost:8444",
       token: "t",
       maxMessageSizeBytes: 50,
     });
@@ -280,7 +280,7 @@ describe("WebSocket Client (Tauri proxy)", () => {
   });
 
   it("drops malformed JSON", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -292,7 +292,7 @@ describe("WebSocket Client (Tauri proxy)", () => {
   });
 
   it("disconnect prevents reconnect", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
 
     client.disconnect();
@@ -320,7 +320,7 @@ describe("lastSeq tracking", () => {
   });
 
   it("should start with lastSeq = 0", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
 
     // When open fires, auth message should contain last_seq: 0
@@ -338,7 +338,7 @@ describe("lastSeq tracking", () => {
   });
 
   it("should update lastSeq from seq field in incoming messages", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -393,7 +393,7 @@ describe("lastSeq tracking", () => {
   });
 
   it("should send last_seq in auth message on reconnect", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -429,7 +429,7 @@ describe("lastSeq tracking", () => {
   });
 
   it("should preserve lastSeq across auto-reconnects", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -498,7 +498,7 @@ describe("lastSeq tracking", () => {
   });
 
   it("should reset lastSeq to 0 on intentional disconnect", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -520,7 +520,7 @@ describe("lastSeq tracking", () => {
 
     // Reconnect fresh
     mockInvoke.mockClear();
-    client.connect({ host: "localhost:8443", token: "t2" });
+    client.connect({ host: "localhost:8444", token: "t2" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -554,7 +554,7 @@ describe("cert mismatch blocking", () => {
   });
 
   it("should block reconnect when cert mismatch detected", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -573,7 +573,7 @@ describe("cert mismatch blocking", () => {
 
     // Cert mismatch event fires
     emitTauriEvent("cert-tofu", {
-      host: "localhost:8443",
+      host: "localhost:8444",
       fingerprint: "sha256:NEW",
       status: "mismatch",
       message: "Stored: sha256:OLD",
@@ -592,7 +592,7 @@ describe("cert mismatch blocking", () => {
   });
 
   it("should unblock after acceptCertFingerprint", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -610,7 +610,7 @@ describe("cert mismatch blocking", () => {
     );
 
     emitTauriEvent("cert-tofu", {
-      host: "localhost:8443",
+      host: "localhost:8444",
       fingerprint: "sha256:NEW",
       status: "mismatch",
       message: "Stored: sha256:OLD",
@@ -619,11 +619,11 @@ describe("cert mismatch blocking", () => {
     expect(client.getState()).toBe("disconnected");
 
     // Accept the new fingerprint
-    await client.acceptCertFingerprint("localhost:8443", "sha256:NEW");
+    await client.acceptCertFingerprint("localhost:8444", "sha256:NEW");
 
     // Now a manual reconnect should work
     mockInvoke.mockClear();
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
 
     expect(mockInvoke).toHaveBeenCalledWith("ws_connect", expect.anything());
@@ -633,7 +633,7 @@ describe("cert mismatch blocking", () => {
     const mismatchEvents: unknown[] = [];
     client.onCertMismatch((evt) => mismatchEvents.push(evt));
 
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -652,7 +652,7 @@ describe("cert mismatch blocking", () => {
 
     // Trigger mismatch
     emitTauriEvent("cert-tofu", {
-      host: "localhost:8443",
+      host: "localhost:8444",
       fingerprint: "sha256:CHANGED",
       status: "mismatch",
       message: "Stored: sha256:ORIGINAL",
@@ -692,7 +692,7 @@ describe("message handling edge cases", () => {
   });
 
   it("silently ignores pong messages", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -705,7 +705,7 @@ describe("message handling edge cases", () => {
   });
 
   it("drops messages with missing type", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -717,7 +717,7 @@ describe("message handling edge cases", () => {
   });
 
   it("drops messages with undefined payload", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -729,7 +729,7 @@ describe("message handling edge cases", () => {
   });
 
   it("tracks highest seq number (ignores lower seq)", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -798,7 +798,7 @@ describe("message handling edge cases", () => {
   });
 
   it("handles message without seq field (defaults to 0)", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -826,7 +826,7 @@ describe("message handling edge cases", () => {
   });
 
   it("dispatch logs when no listeners for message type", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -848,7 +848,7 @@ describe("message handling edge cases", () => {
   });
 
   it("dispatch catches listener errors", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -887,14 +887,14 @@ describe("message handling edge cases", () => {
     });
 
     // Should not crash
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
 
     expect(client.getState()).toBe("connecting");
   });
 
   it("ws-error event is logged without crash", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
 
     // Emit a ws-error event
@@ -916,7 +916,7 @@ describe("message handling edge cases", () => {
     const states: ConnectionState[] = [];
     const unsub = client.onStateChange((s) => states.push(s));
 
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     expect(states.length).toBeGreaterThan(0);
 
@@ -931,14 +931,14 @@ describe("message handling edge cases", () => {
     const events: unknown[] = [];
     const unsub = client.onCertMismatch((evt) => events.push(evt));
 
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
     unsub();
 
     emitTauriEvent("cert-tofu", {
-      host: "localhost:8443",
+      host: "localhost:8444",
       fingerprint: "sha256:NEW",
       status: "mismatch",
       message: "Stored: sha256:OLD",
@@ -966,7 +966,7 @@ describe("reconnection dedup", () => {
   });
 
   it("deduplicates messages during reconnection replay", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -1059,7 +1059,7 @@ describe("reconnection dedup", () => {
   });
 
   it("auth_ok and ready messages are not deduped during replay", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -1106,7 +1106,7 @@ describe("reconnection dedup", () => {
   });
 
   it("dedup uses type:seq as key when message has no id", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -1176,7 +1176,7 @@ describe("reconnection dedup", () => {
   });
 
   it("dedup is not active for first connection (lastSeq=0)", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -1203,7 +1203,7 @@ describe("heartbeat", () => {
   });
 
   it("sends heartbeat ping every 30 seconds after auth_ok", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -1235,7 +1235,7 @@ describe("heartbeat", () => {
   });
 
   it("stops heartbeat on disconnect", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -2716,7 +2716,7 @@ describe("send edge cases", () => {
     const states: ConnectionState[] = [];
     client.onStateChange((s) => states.push(s));
 
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
 
     // Should attempt reconnect after failure
@@ -2724,7 +2724,7 @@ describe("send edge cases", () => {
   });
 
   it("reconnect with successful auth_ok resets reconnect attempt counter", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -2773,7 +2773,7 @@ describe("send edge cases", () => {
   });
 
   it("ws_send rejection is caught without crash", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -2808,7 +2808,7 @@ describe("send edge cases", () => {
   });
 
   it("ws_disconnect error is ignored during disconnectProxy", async () => {
-    client.connect({ host: "localhost:8443", token: "t" });
+    client.connect({ host: "localhost:8444", token: "t" });
     await vi.advanceTimersByTimeAsync(10);
     emitTauriEvent("ws-state", "open");
 
@@ -2839,7 +2839,7 @@ describe("send edge cases", () => {
 
   it("reconnect delay is capped by maxReconnectDelayMs", async () => {
     client.connect({
-      host: "localhost:8443",
+      host: "localhost:8444",
       token: "t",
       maxReconnectDelayMs: 5000,
     });

@@ -38,7 +38,7 @@ function makeCallbacks(overrides: Partial<ConnectPageCallbacks> = {}): ConnectPa
   };
 }
 
-const testProfiles: SimpleProfile[] = [{ name: "Test Server", host: "localhost:8443" }];
+const testProfiles: SimpleProfile[] = [{ name: "Test Server", host: "localhost:8444" }];
 
 describe("ConnectPage", () => {
   let container: HTMLDivElement;
@@ -88,7 +88,7 @@ describe("ConnectPage", () => {
     serverItem.click();
 
     const hostInput = container.querySelector("#host") as HTMLInputElement;
-    expect(hostInput.value).toBe("localhost:8443");
+    expect(hostInput.value).toBe("localhost:8444");
 
     page.destroy?.();
   });
@@ -121,7 +121,7 @@ describe("ConnectPage", () => {
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "testuser";
     passwordInput.value = "short";
 
@@ -146,7 +146,7 @@ describe("ConnectPage", () => {
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "testuser";
     passwordInput.value = "password123";
 
@@ -154,7 +154,7 @@ describe("ConnectPage", () => {
     form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 
     await vi.waitFor(() => {
-      expect(onLogin).toHaveBeenCalledWith("localhost:8443", "testuser", "password123");
+      expect(onLogin).toHaveBeenCalledWith("localhost:8444", "testuser", "password123");
     });
 
     page.destroy?.();
@@ -238,7 +238,7 @@ describe("ConnectPage", () => {
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "testuser";
     passwordInput.value = "password123";
 
@@ -277,10 +277,10 @@ describe("ConnectPage", () => {
     const page = createConnectPage(makeCallbacks(), testProfiles);
     page.mount(container);
 
-    page.selectServer("localhost:8443", "initialuser");
+    page.selectServer("localhost:8444", "initialuser");
 
     const hostInput = container.querySelector("#host") as HTMLInputElement;
-    expect(hostInput.value).toBe("localhost:8443");
+    expect(hostInput.value).toBe("localhost:8444");
 
     // Wait for async credential loading
     await vi.waitFor(() => {
@@ -299,7 +299,7 @@ describe("ConnectPage", () => {
     const page = createConnectPage(makeCallbacks(), testProfiles);
     page.mount(container);
 
-    page.selectServer("localhost:8443", "myuser");
+    page.selectServer("localhost:8444", "myuser");
 
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     expect(usernameInput.value).toBe("myuser");
@@ -311,7 +311,7 @@ describe("ConnectPage", () => {
     const page = createConnectPage(makeCallbacks(), testProfiles);
     page.mount(container);
 
-    page.selectServer("localhost:8443");
+    page.selectServer("localhost:8444");
 
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     expect(usernameInput.value).toBe("");
@@ -329,10 +329,10 @@ describe("ConnectPage", () => {
     const page = createConnectPage(makeCallbacks(), testProfiles);
     page.mount(container);
 
-    page.selectServer("localhost:8443");
+    page.selectServer("localhost:8444");
     // Immediately change the host to something else
     const hostInput = container.querySelector("#host") as HTMLInputElement;
-    hostInput.value = "other-server:8443";
+    hostInput.value = "other-server:8444";
 
     // Wait for async to finish
     await new Promise((r) => setTimeout(r, 50));
@@ -350,11 +350,11 @@ describe("ConnectPage", () => {
     page.mount(container);
 
     // Should not throw
-    page.selectServer("localhost:8443");
+    page.selectServer("localhost:8444");
     await new Promise((r) => setTimeout(r, 20));
 
     const hostInput = container.querySelector("#host") as HTMLInputElement;
-    expect(hostInput.value).toBe("localhost:8443");
+    expect(hostInput.value).toBe("localhost:8444");
 
     page.destroy?.();
   });
@@ -410,8 +410,8 @@ describe("ConnectPage", () => {
     expect(container.querySelectorAll(".server-item").length).toBe(1);
 
     page.refreshProfiles([
-      { name: "Server A", host: "a.com:8443" },
-      { name: "Server B", host: "b.com:8443" },
+      { name: "Server A", host: "a.com:8444" },
+      { name: "Server B", host: "b.com:8444" },
     ]);
 
     expect(container.querySelectorAll(".server-item").length).toBe(2);
@@ -425,7 +425,7 @@ describe("ConnectPage", () => {
     const page = createConnectPage(makeCallbacks(), testProfiles);
     page.mount(container);
 
-    page.updateHealthStatus("localhost:8443", {
+    page.updateHealthStatus("localhost:8444", {
       status: "online",
       latencyMs: 42,
       version: null,
@@ -623,7 +623,7 @@ describe("ConnectPage", () => {
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
     const inviteInput = container.querySelector("#invite") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "newuser";
     passwordInput.value = "password123";
     inviteInput.value = "INVITE-CODE";
@@ -632,12 +632,16 @@ describe("ConnectPage", () => {
     form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 
     await vi.waitFor(() => {
+<<<<<<< HEAD
       expect(onRegister).toHaveBeenCalledWith(
         "localhost:8443",
         "newuser",
         "password123",
         "INVITE-CODE",
       );
+=======
+      expect(onRegister).toHaveBeenCalledWith("localhost:8444", "newuser", "password123", "INVITE-CODE");
+>>>>>>> b66a9fc (edit server port to 8444)
     });
 
     page.destroy?.();
@@ -654,7 +658,7 @@ describe("ConnectPage", () => {
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "newuser";
     passwordInput.value = "password123";
 
@@ -681,7 +685,7 @@ describe("ConnectPage", () => {
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "testuser";
     passwordInput.value = "password123";
 
@@ -705,7 +709,7 @@ describe("ConnectPage", () => {
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "testuser";
     passwordInput.value = "password123";
 
@@ -729,7 +733,7 @@ describe("ConnectPage", () => {
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "testuser";
     passwordInput.value = "password123";
 
@@ -753,7 +757,7 @@ describe("ConnectPage", () => {
     const hostInput = container.querySelector("#host") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     passwordInput.value = "password123";
 
     const form = container.querySelector(".connect-form") as HTMLFormElement;
@@ -774,7 +778,7 @@ describe("ConnectPage", () => {
     const hostInput = container.querySelector("#host") as HTMLInputElement;
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "testuser";
 
     const form = container.querySelector(".connect-form") as HTMLFormElement;
@@ -804,7 +808,7 @@ describe("ConnectPage", () => {
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "testuser";
     passwordInput.value = "password123";
 
@@ -871,7 +875,7 @@ describe("ConnectPage", () => {
 
     // Immediately change host
     const hostInput = container.querySelector("#host") as HTMLInputElement;
-    hostInput.value = "different-host:8443";
+    hostInput.value = "different-host:8444";
 
     // Wait for credential loading to complete
     await new Promise((r) => setTimeout(r, 20));
@@ -908,7 +912,7 @@ describe("ConnectPage", () => {
 
     // Use selectServer which calls setCredentials internally
     mockLoadCredential.mockResolvedValue({ username: "user", token: "tok", password: "pass123" });
-    page.selectServer("localhost:8443");
+    page.selectServer("localhost:8444");
 
     // Wait for credential loading isn't needed for checking setCredentials behavior
     // Let's check via the sync path: onServerClick doesn't set a password
@@ -971,7 +975,7 @@ describe("ConnectPage", () => {
     const usernameInput = container.querySelector("#username") as HTMLInputElement;
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "testuser";
     passwordInput.value = "password123";
 
@@ -1006,7 +1010,7 @@ describe("ConnectPage", () => {
     const passwordInput = container.querySelector("#password") as HTMLInputElement;
     const inviteInput = container.querySelector("#invite") as HTMLInputElement;
 
-    hostInput.value = "localhost:8443";
+    hostInput.value = "localhost:8444";
     usernameInput.value = "newuser";
     passwordInput.value = "password123";
     inviteInput.value = "CODE";
@@ -1045,7 +1049,7 @@ describe("ConnectPage", () => {
     expect(serverItems.length).toBe(1);
 
     const serverHost = container.querySelector(".srv-host");
-    expect(serverHost?.textContent).toBe("localhost:8443");
+    expect(serverHost?.textContent).toBe("localhost:8444");
 
     page.destroy?.();
   });

@@ -35,7 +35,7 @@ export interface ConnectPageCallbacks {
 // ---------------------------------------------------------------------------
 
 const DEFAULT_PROFILES: readonly SimpleProfile[] = [
-  { name: "Local Server", host: "localhost:8443" },
+  { name: "Local Server", host: "localhost:8444" },
 ];
 
 // ---------------------------------------------------------------------------

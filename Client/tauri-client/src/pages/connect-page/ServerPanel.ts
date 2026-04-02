@@ -282,7 +282,7 @@ export function createServerPanel(
     const hostAddrInput = createElement("input", {
       class: "form-input",
       type: "text",
-      placeholder: "example.com:8443",
+      placeholder: "example.com:8444",
     });
     appendChildren(hostGroup, hostLabel, hostAddrInput);
 

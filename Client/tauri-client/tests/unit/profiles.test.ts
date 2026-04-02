@@ -70,7 +70,7 @@ function jsonResponse(body: unknown, status = 200): Response {
 
 const sampleData: CreateProfileData = {
   name: "Dev Server",
-  host: "localhost:8443",
+  host: "localhost:8444",
   username: "alice",
   color: "#ff5500",
   autoConnect: false,
@@ -121,7 +121,7 @@ describe("ProfileManager", () => {
 
       expect(profile.id).toBe("00000000-0000-0000-0000-000000000001");
       expect(profile.name).toBe("Dev Server");
-      expect(profile.host).toBe("localhost:8443");
+      expect(profile.host).toBe("localhost:8444");
       expect(profile.username).toBe("alice");
       expect(profile.color).toBe("#ff5500");
       expect(profile.autoConnect).toBe(false);
@@ -317,7 +317,7 @@ describe("ProfileManager", () => {
 
       await m.checkHealth(profile.id);
 
-      expect(capturedUrl).toBe("https://localhost:8443/api/v1/health");
+      expect(capturedUrl).toBe("https://localhost:8444/api/v1/health");
     });
 
     it("uses AbortController signal in fetch call", async () => {
@@ -350,7 +350,7 @@ describe("ProfileManager", () => {
       expect(results.get(p1.id)?.status).toBe("online");
       expect(results.get(p2.id)?.status).toBe("online");
       expect(pingedHosts).toHaveLength(2);
-      expect(pingedHosts).toContain("https://localhost:8443/api/v1/health");
+      expect(pingedHosts).toContain("https://localhost:8444/api/v1/health");
       expect(pingedHosts).toContain("https://prod.example.com:443/api/v1/health");
     });
 
@@ -380,7 +380,7 @@ describe("ProfileManager", () => {
       expect(m2.getAll()).toHaveLength(2);
 
       const hosts = m2.getAll().map((p) => p.host);
-      expect(hosts).toContain("localhost:8443");
+      expect(hosts).toContain("localhost:8444");
       expect(hosts).toContain("prod.example.com:443");
     });
 
@@ -392,7 +392,7 @@ describe("ProfileManager", () => {
         {
           id: "ext-1",
           name: "Duplicate",
-          host: "localhost:8443",
+          host: "localhost:8444",
           username: "charlie",
           color: "#000000",
           autoConnect: false,

@@ -29,7 +29,7 @@ test.describe("Connect Page", () => {
     const serverItem = page.locator(".server-item").first();
     await expect(serverItem).toBeVisible();
     await expect(serverItem.locator(".srv-name")).toHaveText("Local Server");
-    await expect(serverItem.locator(".srv-host")).toHaveText("localhost:8443");
+    await expect(serverItem.locator(".srv-host")).toHaveText("localhost:8444");
   });
 
   test("login form has host, username, password fields", async ({ page }) => {
@@ -41,7 +41,7 @@ test.describe("Connect Page", () => {
     await expect(usernameInput).toBeVisible();
     await expect(passwordInput).toBeVisible();
 
-    await expect(hostInput).toHaveAttribute("placeholder", "localhost:8443");
+    await expect(hostInput).toHaveAttribute("placeholder", "localhost:8444");
     await expect(passwordInput).toHaveAttribute("type", "password");
   });
 
@@ -80,7 +80,7 @@ test.describe("Connect Page", () => {
     await serverItem.click();
 
     const hostInput = page.locator("#host");
-    await expect(hostInput).toHaveValue("localhost:8443");
+    await expect(hostInput).toHaveValue("localhost:8444");
   });
 
   test("password toggle button shows/hides password", async ({ page }) => {
@@ -98,7 +98,7 @@ test.describe("Connect Page", () => {
   });
 
   test("form shows loading state on submit", async ({ page }) => {
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("testuser");
     await page.locator("#password").fill("password123");
 
@@ -147,7 +147,7 @@ test.describe("Connect Page — Login Error", () => {
     await mockTauriLoginError(page);
     await page.goto("/");
 
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("testuser");
     await page.locator("#password").fill("wrongpassword");
     await page.locator("button.btn-primary[type='submit']").click();
@@ -169,7 +169,7 @@ test.describe("Connect Page — TOTP", () => {
     const totpOverlay = page.locator(".totp-overlay");
     await expect(totpOverlay).toHaveClass(/totp-overlay--hidden/);
 
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("testuser");
     await page.locator("#password").fill("password123");
     await page.locator("button.btn-primary[type='submit']").click();
@@ -189,7 +189,7 @@ test.describe("Connect Page — TOTP", () => {
     await mockTauriConnectWith2FA(page);
     await page.goto("/");
 
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("testuser");
     await page.locator("#password").fill("password123");
     await page.locator("button.btn-primary[type='submit']").click();
@@ -209,7 +209,7 @@ test.describe("Connect Page — TOTP", () => {
     await mockTauriConnectWith2FA(page);
     await page.goto("/");
 
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("testuser");
     await page.locator("#password").fill("password123");
     await page.locator("button.btn-primary[type='submit']").click();

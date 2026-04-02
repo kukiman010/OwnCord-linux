@@ -45,7 +45,7 @@ function makeOpts(overrides: Partial<ServerPanelOptions> = {}): ServerPanelOptio
 }
 
 const SIMPLE_PROFILES: readonly SimpleProfile[] = [
-  { name: "Test Server", host: "localhost:8443" },
+  { name: "Test Server", host: "localhost:8444" },
   { name: "Another Server", host: "remote.example.com:9443" },
 ];
 
@@ -53,7 +53,7 @@ const SIMPLE_PROFILES: readonly SimpleProfile[] = [
 function fullProfile(overrides: Record<string, unknown> = {}): SimpleProfile {
   return {
     name: "Full Server",
-    host: "full.example.com:8443",
+    host: "full.example.com:8444",
     id: "profile-1",
     username: "testuser",
     autoConnect: false,
@@ -116,7 +116,7 @@ describe("ServerPanel", () => {
       container.appendChild(panel.element);
 
       expect(container.querySelector(".srv-name")?.textContent).toBe("Test Server");
-      expect(container.querySelector(".srv-host")?.textContent).toBe("localhost:8443");
+      expect(container.querySelector(".srv-host")?.textContent).toBe("localhost:8444");
     });
 
     it("renders an icon with the first letter of the server name", () => {
@@ -140,7 +140,7 @@ describe("ServerPanel", () => {
       container.appendChild(panel.element);
 
       const items = container.querySelectorAll(".server-item");
-      expect(items[0]?.getAttribute("data-host")).toBe("localhost:8443");
+      expect(items[0]?.getAttribute("data-host")).toBe("localhost:8444");
       expect(items[1]?.getAttribute("data-host")).toBe("remote.example.com:9443");
     });
 
@@ -199,7 +199,7 @@ describe("ServerPanel", () => {
       const item = container.querySelector(".server-item") as HTMLElement;
       item.click();
 
-      expect(onServerClick).toHaveBeenCalledWith("localhost:8443", undefined);
+      expect(onServerClick).toHaveBeenCalledWith("localhost:8444", undefined);
     });
 
     it("calls onServerClick with host AND username for full profiles", () => {
@@ -211,7 +211,7 @@ describe("ServerPanel", () => {
       const item = container.querySelector(".server-item") as HTMLElement;
       item.click();
 
-      expect(onServerClick).toHaveBeenCalledWith("full.example.com:8443", "testuser");
+      expect(onServerClick).toHaveBeenCalledWith("full.example.com:8444", "testuser");
     });
 
     it("attempts to load credentials from credential store on click", async () => {
@@ -223,7 +223,7 @@ describe("ServerPanel", () => {
 
       // Wait for the async loadCredential call
       await vi.waitFor(() => {
-        expect(loadCredential).toHaveBeenCalledWith("localhost:8443");
+        expect(loadCredential).toHaveBeenCalledWith("localhost:8444");
       });
     });
 
@@ -242,7 +242,7 @@ describe("ServerPanel", () => {
 
       // Password is no longer returned from credential store over IPC (security hardening)
       await vi.waitFor(() => {
-        expect(onCredentialLoaded).toHaveBeenCalledWith("localhost:8443", "saveduser", undefined);
+        expect(onCredentialLoaded).toHaveBeenCalledWith("localhost:8444", "saveduser", undefined);
       });
     });
 
@@ -437,7 +437,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "online",
         latencyMs: 42,
         version: "1.0.0",
@@ -452,7 +452,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "online",
         latencyMs: 42,
         version: "1.0.0",
@@ -468,7 +468,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "slow",
         latencyMs: 250,
         version: "1.0.0",
@@ -484,7 +484,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "slow",
         latencyMs: 750,
         version: "1.0.0",
@@ -501,7 +501,7 @@ describe("ServerPanel", () => {
       container.appendChild(panel.element);
 
       // First set a latency
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "online",
         latencyMs: 42,
         version: "1.0.0",
@@ -509,7 +509,7 @@ describe("ServerPanel", () => {
       });
 
       // Then clear it
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "offline",
         latencyMs: null,
         version: null,
@@ -525,7 +525,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "online",
         latencyMs: 30,
         version: "1.0.0",
@@ -541,7 +541,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "online",
         latencyMs: 30,
         version: "1.0.0",
@@ -557,7 +557,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "offline",
         latencyMs: null,
         version: null,
@@ -590,7 +590,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "offline",
         latencyMs: null,
         version: null,
@@ -605,7 +605,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "checking",
         latencyMs: null,
         version: null,
@@ -620,7 +620,7 @@ describe("ServerPanel", () => {
       const panel = createServerPanel(makeOpts(), [SIMPLE_PROFILES[0]!]);
       container.appendChild(panel.element);
 
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "online",
         latencyMs: 30,
         version: "1.0.0",
@@ -655,7 +655,7 @@ describe("ServerPanel", () => {
       panel.renderProfiles([SIMPLE_PROFILES[1]!]);
 
       // Updating the old host should not throw and should have no effect
-      panel.updateHealthStatus("localhost:8443", {
+      panel.updateHealthStatus("localhost:8444", {
         status: "online",
         latencyMs: 10,
         version: "1.0.0",
@@ -721,7 +721,7 @@ describe("ServerPanel", () => {
       const inputs = container.querySelectorAll(".form-input");
       expect(inputs.length).toBe(2);
       expect((inputs[0] as HTMLInputElement).placeholder).toBe("My Server");
-      expect((inputs[1] as HTMLInputElement).placeholder).toBe("example.com:8443");
+      expect((inputs[1] as HTMLInputElement).placeholder).toBe("example.com:8444");
     });
 
     it("modal has Cancel and Add Server buttons", () => {
@@ -800,12 +800,12 @@ describe("ServerPanel", () => {
 
       const inputs = container.querySelectorAll(".form-input") as NodeListOf<HTMLInputElement>;
       inputs[0]!.value = "My New Server";
-      inputs[1]!.value = "newserver.com:8443";
+      inputs[1]!.value = "newserver.com:8444";
 
       const saveBtn = container.querySelector(".modal-footer .btn-primary") as HTMLElement;
       saveBtn.click();
 
-      expect(onAddProfile).toHaveBeenCalledWith("My New Server", "newserver.com:8443");
+      expect(onAddProfile).toHaveBeenCalledWith("My New Server", "newserver.com:8444");
       expect(container.querySelector(".modal-overlay")).toBeNull();
     });
 
@@ -819,7 +819,7 @@ describe("ServerPanel", () => {
 
       const inputs = container.querySelectorAll(".form-input") as NodeListOf<HTMLInputElement>;
       inputs[0]!.value = "";
-      inputs[1]!.value = "host.com:8443";
+      inputs[1]!.value = "host.com:8444";
 
       const saveBtn = container.querySelector(".modal-footer .btn-primary") as HTMLElement;
       saveBtn.click();
@@ -894,12 +894,12 @@ describe("ServerPanel", () => {
 
       const inputs = container.querySelectorAll(".form-input") as NodeListOf<HTMLInputElement>;
       inputs[0]!.value = "Enter Server";
-      inputs[1]!.value = "enter.example.com:8443";
+      inputs[1]!.value = "enter.example.com:8444";
 
       // Dispatch Enter keydown on the host input
       inputs[1]!.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
 
-      expect(onAddProfile).toHaveBeenCalledWith("Enter Server", "enter.example.com:8443");
+      expect(onAddProfile).toHaveBeenCalledWith("Enter Server", "enter.example.com:8444");
     });
 
     it("trims whitespace from name and host values", () => {
@@ -912,12 +912,12 @@ describe("ServerPanel", () => {
 
       const inputs = container.querySelectorAll(".form-input") as NodeListOf<HTMLInputElement>;
       inputs[0]!.value = "  Trimmed Server  ";
-      inputs[1]!.value = "  trimmed.com:8443  ";
+      inputs[1]!.value = "  trimmed.com:8444  ";
 
       const saveBtn = container.querySelector(".modal-footer .btn-primary") as HTMLElement;
       saveBtn.click();
 
-      expect(onAddProfile).toHaveBeenCalledWith("Trimmed Server", "trimmed.com:8443");
+      expect(onAddProfile).toHaveBeenCalledWith("Trimmed Server", "trimmed.com:8444");
     });
 
     it("focuses the name input on modal open", () => {

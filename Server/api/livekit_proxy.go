@@ -17,7 +17,7 @@ import (
 // reach LiveKit through OwnCord's existing HTTPS server, avoiding
 // mixed-content blocks in WebView2 (secure page → insecure WebSocket).
 //
-// The client connects to wss://server:8443/livekit/ which is proxied to
+// The client connects to wss://server:8444/livekit/ which is proxied to
 // ws://localhost:7880/ on the LiveKit server.
 func NewLiveKitProxy(livekitURL string, allowedOrigins []string) http.Handler {
 	target, err := url.Parse(livekitURL)

@@ -88,7 +88,7 @@ test.describe("Register Flow — Validation", () => {
   });
 
   test("empty invite code shows validation error", async ({ page }) => {
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("newuser");
     await page.locator("#password").fill("password123");
     // Leave invite code empty
@@ -101,7 +101,7 @@ test.describe("Register Flow — Validation", () => {
   });
 
   test("short password shows validation error", async ({ page }) => {
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("newuser");
     await page.locator("#password").fill("short");
     await page.locator("#invite").fill("invite123");
@@ -114,7 +114,7 @@ test.describe("Register Flow — Validation", () => {
   });
 
   test("empty username shows validation error", async ({ page }) => {
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     // Leave username empty
     await page.locator("#password").fill("password123");
     await page.locator("#invite").fill("invite123");
@@ -147,7 +147,7 @@ test.describe("Register Flow — Submission", () => {
     await page.goto("/");
     await switchToRegisterMode(page);
 
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("newuser");
     await page.locator("#password").fill("password123");
     await page.locator("#invite").fill("invite-abc");
@@ -164,7 +164,7 @@ test.describe("Register Flow — Submission", () => {
     await page.goto("/");
     await switchToRegisterMode(page);
 
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("newuser");
     await page.locator("#password").fill("password123");
     await page.locator("#invite").fill("invite-abc");
@@ -181,7 +181,7 @@ test.describe("Register Flow — Submission", () => {
     await page.goto("/");
     await switchToRegisterMode(page);
 
-    await page.locator("#host").fill("localhost:8443");
+    await page.locator("#host").fill("localhost:8444");
     await page.locator("#username").fill("existinguser");
     await page.locator("#password").fill("password123");
     await page.locator("#invite").fill("invite-abc");

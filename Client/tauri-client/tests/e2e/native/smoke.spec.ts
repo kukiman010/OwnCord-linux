@@ -100,7 +100,7 @@ test.describe("Native App Server Connection", () => {
     await expect(hostInput).toBeVisible({ timeout: 15_000 });
 
     // The connect page auto-pings saved servers on load.
-    // If a saved server profile exists (e.g. "localhost:8443"), the sidebar
+    // If a saved server profile exists (e.g. "localhost:8444"), the sidebar
     // shows a .server-item with a .srv-latency badge showing the ping time.
     // This proves the real Tauri HTTP plugin made a network request.
     const serverItem = nativePage.locator(".server-item").first();
@@ -114,11 +114,11 @@ test.describe("Native App Server Connection", () => {
       // No saved server — fill in host and verify server-side response.
       // Wait for host input to be editable before filling
       await expect(hostInput).toBeEditable({ timeout: 5_000 });
-      await hostInput.fill("localhost:8443");
+      await hostInput.fill("localhost:8444");
       await hostInput.press("Tab");
 
       // Verify the form accepted the value (no crash = real HTTP plugin loaded)
-      await expect(hostInput).toHaveValue("localhost:8443", { timeout: 5_000 });
+      await expect(hostInput).toHaveValue("localhost:8444", { timeout: 5_000 });
     }
   });
 
@@ -133,7 +133,7 @@ test.describe("Native App Server Connection", () => {
     await expect(nativePage.locator("#host")).toBeVisible({ timeout: 15_000 });
 
     // Fill login form — use env vars for real creds, or dummy creds to prove API round-trip
-    const serverUrl = process.env.OWNCORD_SERVER_URL ?? "localhost:8443";
+    const serverUrl = process.env.OWNCORD_SERVER_URL ?? "localhost:8444";
     const username = process.env.OWNCORD_TEST_USER ?? "e2e-native-test";
     const password = process.env.OWNCORD_TEST_PASS ?? "e2e-native-test";
 

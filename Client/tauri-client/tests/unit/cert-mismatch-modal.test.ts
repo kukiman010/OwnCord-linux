@@ -9,7 +9,7 @@ import { parseStoredFingerprint } from "../../src/lib/ws";
 describe("parseStoredFingerprint", () => {
   it("extracts stored fingerprint from Rust message", () => {
     const msg =
-      "Certificate fingerprint changed for localhost:8443.\n" +
+      "Certificate fingerprint changed for localhost:8444.\n" +
       "Stored:  51:32:d1:f9:61:47:e4:cc:26:6f:3a:87\n" +
       "Current: 23:e4:00:61:11:f7:e5:12:eb:b9:2d:19\n" +
       "This may indicate a man-in-the-middle attack.";
@@ -49,7 +49,7 @@ describe("CertMismatchModal", () => {
     const onAccept = vi.fn();
     const onReject = vi.fn();
     const modal = createCertMismatchModal({
-      host: "localhost:8443",
+      host: "localhost:8444",
       storedFingerprint: "AA:BB:CC:DD",
       newFingerprint: "11:22:33:44",
       onAccept,
@@ -71,7 +71,7 @@ describe("CertMismatchModal", () => {
     mountModal();
     const values = container.querySelectorAll(".cert-value");
     const texts = Array.from(values).map((el) => el.textContent);
-    expect(texts).toContain("localhost:8443");
+    expect(texts).toContain("localhost:8444");
   });
 
   it("displays stored and new fingerprints", () => {

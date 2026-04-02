@@ -11,9 +11,9 @@ Friends outside your LAN need a way to reach your server. Port forwarding tells 
 1. **Find your router's admin page** -- usually `192.168.1.1` or `192.168.0.1`. Check your gateway IP with `ipconfig` (Windows) or `ip route` (Linux).
 2. **Find the port forwarding section** -- may be listed under "NAT", "Virtual Servers", or "Firewall" depending on your router.
 3. **Add a rule for the server:**
-   - External port: `8443`
+   - External port: `8444`
    - Internal IP: your server machine's local IP
-   - Internal port: `8443`
+   - Internal port: `8444`
    - Protocol: TCP
 4. **Add a rule for voice chat** (if using voice/video):
    - External port: `3478`
@@ -21,11 +21,11 @@ Friends outside your LAN need a way to reach your server. Port forwarding tells 
    - Internal port: `3478`
    - Protocol: UDP
 5. **Find your public IP** at a site like `whatismyip.com`.
-6. **Share your public IP and port** with friends: `your.public.ip:8443`
+6. **Share your public IP and port** with friends: `your.public.ip:8444`
 
 ## Troubleshooting
 
-Windows Firewall may block incoming connections. `chatserver.exe` should prompt on first run to allow access. If not, manually add a firewall rule for port 8443 (TCP) and 3478 (UDP).
+Windows Firewall may block incoming connections. `chatserver.exe` should prompt on first run to allow access. If not, manually add a firewall rule for port 8444 (TCP) and 3478 (UDP).
 
 ## Dynamic IP
 

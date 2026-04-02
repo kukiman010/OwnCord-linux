@@ -11,7 +11,7 @@ import { type Page, expect } from "@playwright/test";
 // Environment config
 // ---------------------------------------------------------------------------
 
-export const SERVER_URL = process.env.OWNCORD_SERVER_URL ?? "localhost:8443";
+export const SERVER_URL = process.env.OWNCORD_SERVER_URL ?? "localhost:8444";
 export const TEST_USER = process.env.OWNCORD_TEST_USER ?? "";
 export const TEST_PASS = process.env.OWNCORD_TEST_PASS ?? "";
 export const SKIP_SERVER = !!process.env.OWNCORD_SKIP_SERVER_TESTS;

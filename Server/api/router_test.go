@@ -28,7 +28,7 @@ func setupRouter(t *testing.T) http.Handler {
 	cfg := &config.Config{
 		Server: config.ServerConfig{
 			Name: "Test Server",
-			Port: 8443,
+			Port: 8444,
 		},
 	}
 

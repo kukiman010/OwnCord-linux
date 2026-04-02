@@ -18,7 +18,7 @@ Configuration is loaded in three layers (later layers override earlier ones):
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| `server.port` | int | `8443` | HTTP(S) listen port |
+| `server.port` | int | `8444` | HTTP(S) listen port |
 | `server.name` | string | `"OwnCord Server"` | Server display name (shown in `/api/v1/info` and admin panel) |
 | `server.data_dir` | string | `"data"` | Directory for database, certs, uploads, backups |
 | `server.allowed_origins` | string[] | `[]` | WebSocket CORS allowed origins; empty list DENIES all cross-origin (set to `["*"]` to allow any origin) |
@@ -96,7 +96,7 @@ Every config key can be overridden via environment variables using the prefix `O
 ```yaml
 # OwnCord Server Configuration
 server:
-  port: 8443
+  port: 8444
   name: "OwnCord Server"
   data_dir: "data"
   allowed_origins: []             # empty = deny all cross-origin; set to ["*"] to allow any

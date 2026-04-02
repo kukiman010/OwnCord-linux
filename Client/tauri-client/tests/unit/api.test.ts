@@ -50,7 +50,7 @@ describe("API Client", () => {
   beforeEach(() => {
     mockFetch.mockReset();
     onUnauthorized = vi.fn();
-    api = createApiClient({ host: "localhost:8443", token: "test-token" }, onUnauthorized);
+    api = createApiClient({ host: "localhost:8444", token: "test-token" }, onUnauthorized);
   });
 
   afterEach(() => {
@@ -71,25 +71,25 @@ describe("API Client", () => {
     it("login calls /api/v1/auth/login", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ token: "t", requires_2fa: false }));
       await api.login("user", "pass");
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/auth/login");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/auth/login");
     });
 
     it("getMessages calls /api/v1/channels/{id}/messages", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ messages: [], has_more: false }));
       await api.getMessages(5);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/channels/5/messages");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/channels/5/messages");
     });
 
     it("search calls /api/v1/search", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ results: [] }));
       await api.search("hello");
-      expect(fetchCallUrl()).toContain("https://localhost:8443/api/v1/search");
+      expect(fetchCallUrl()).toContain("https://localhost:8444/api/v1/search");
     });
 
     it("getHealth calls /api/v1/health", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ status: "ok", version: "1.0.0", uptime: 100 }));
       await api.getHealth();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/health");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/health");
     });
   });
 
@@ -113,14 +113,14 @@ describe("API Client", () => {
     it("logout sends POST /auth/logout", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.logout();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/auth/logout");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/auth/logout");
       expect(fetchCallOpts().method).toBe("POST");
     });
 
     it("deleteAccount sends DELETE /auth/account with password", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.deleteAccount("mypass");
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/auth/account");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/auth/account");
       expect(fetchCallOpts().method).toBe("DELETE");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ password: "mypass" });
@@ -231,7 +231,7 @@ describe("API Client", () => {
     it("getMessages works without options (no query string)", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ messages: [], has_more: false }));
       await api.getMessages(3);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/channels/3/messages");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/channels/3/messages");
     });
   });
 
@@ -246,7 +246,7 @@ describe("API Client", () => {
 
     it("getConfig returns config with redacted token", () => {
       const cfg = api.getConfig();
-      expect(cfg.host).toBe("localhost:8443");
+      expect(cfg.host).toBe("localhost:8444");
       expect(cfg.token).toBe("[redacted]");
     });
 
@@ -257,7 +257,7 @@ describe("API Client", () => {
     });
 
     it("omits Authorization header when no token is set", async () => {
-      const noTokenApi = createApiClient({ host: "localhost:8443" });
+      const noTokenApi = createApiClient({ host: "localhost:8444" });
       mockFetch.mockResolvedValue(jsonResponse({}));
       await noTokenApi.login("u", "p");
       const headers = fetchCallOpts().headers as Record<string, string>;
@@ -270,7 +270,7 @@ describe("API Client", () => {
     it("getMe calls GET /users/me", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ id: 1, username: "me" }));
       const result = await api.getMe();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/users/me");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/users/me");
       expect(fetchCallOpts().method).toBe("GET");
       expect(result).toEqual({ id: 1, username: "me" });
     });
@@ -278,7 +278,7 @@ describe("API Client", () => {
     it("updateProfile sends PATCH /users/me with data", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ id: 1, username: "newname" }));
       await api.updateProfile({ username: "newname" });
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/users/me");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/users/me");
       expect(fetchCallOpts().method).toBe("PATCH");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ username: "newname" });
@@ -294,7 +294,7 @@ describe("API Client", () => {
     it("changePassword sends PUT /users/me/password", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.changePassword("oldpw", "newpw");
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/users/me/password");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/users/me/password");
       expect(fetchCallOpts().method).toBe("PUT");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ current_password: "oldpw", new_password: "newpw" });
@@ -303,13 +303,13 @@ describe("API Client", () => {
     it("getSessions calls correct endpoint", async () => {
       mockFetch.mockResolvedValue(jsonResponse([]));
       await api.getSessions();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/users/me/sessions");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/users/me/sessions");
     });
 
     it("revokeSession calls DELETE with session ID", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.revokeSession(42);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/users/me/sessions/42");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/users/me/sessions/42");
       expect(fetchCallOpts().method).toBe("DELETE");
     });
   });
@@ -320,7 +320,7 @@ describe("API Client", () => {
         jsonResponse({ qr_uri: "otpauth://totp/test", backup_codes: ["abc"] }),
       );
       const result = await api.enableTotp("mypassword");
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/users/me/totp/enable");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/users/me/totp/enable");
       expect(fetchCallOpts().method).toBe("POST");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ password: "mypassword" });
@@ -333,7 +333,7 @@ describe("API Client", () => {
     it("confirmTotp sends POST /users/me/totp/confirm with password and code", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.confirmTotp("mypassword", "123456");
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/users/me/totp/confirm");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/users/me/totp/confirm");
       expect(fetchCallOpts().method).toBe("POST");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ password: "mypassword", code: "123456" });
@@ -342,7 +342,7 @@ describe("API Client", () => {
     it("disableTotp sends DELETE /users/me/totp with password", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.disableTotp("mypassword");
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/users/me/totp");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/users/me/totp");
       expect(fetchCallOpts().method).toBe("DELETE");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ password: "mypassword" });
@@ -376,7 +376,7 @@ describe("API Client", () => {
     it("sends POST /auth/verify-totp with partial token in header", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ token: "full-token", user: { id: 1 } }));
       const result = await api.verifyTotp("123456", "partial-tok");
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/auth/verify-totp");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/auth/verify-totp");
       expect(fetchCallOpts().method).toBe("POST");
       const headers = fetchCallOpts().headers as Record<string, string>;
       expect(headers["Authorization"]).toBe("Bearer partial-tok");
@@ -451,21 +451,21 @@ describe("API Client", () => {
     it("getPins calls GET /channels/{id}/pins", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ messages: [] }));
       await api.getPins(7);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/channels/7/pins");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/channels/7/pins");
       expect(fetchCallOpts().method).toBe("GET");
     });
 
     it("pinMessage calls POST /channels/{id}/pins/{msgId}", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.pinMessage(7, 99);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/channels/7/pins/99");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/channels/7/pins/99");
       expect(fetchCallOpts().method).toBe("POST");
     });
 
     it("unpinMessage calls DELETE /channels/{id}/pins/{msgId}", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.unpinMessage(7, 99);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/channels/7/pins/99");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/channels/7/pins/99");
       expect(fetchCallOpts().method).toBe("DELETE");
     });
   });
@@ -498,7 +498,7 @@ describe("API Client", () => {
       const file = new File(["hello"], "file.png", { type: "image/png" });
       const result = await api.uploadFile(file);
 
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/uploads");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/uploads");
       expect(fetchCallOpts().method).toBe("POST");
       // Should use FormData (not JSON)
       expect(fetchCallOpts().body).toBeInstanceOf(FormData);
@@ -520,8 +520,15 @@ describe("API Client", () => {
     });
 
     it("uploadFile omits Authorization header when no token set", async () => {
+<<<<<<< HEAD
       const noTokenApi = createApiClient({ host: "localhost:8443" });
       mockFetch.mockResolvedValue(jsonResponse({ url: "https://cdn/f.png", filename: "f.png" }));
+=======
+      const noTokenApi = createApiClient({ host: "localhost:8444" });
+      mockFetch.mockResolvedValue(
+        jsonResponse({ url: "https://cdn/f.png", filename: "f.png" }),
+      );
+>>>>>>> b66a9fc (edit server port to 8444)
       const file = new File(["data"], "f.png");
       await noTokenApi.uploadFile(file);
       const headers = fetchCallOpts().headers as Record<string, string>;
@@ -550,7 +557,7 @@ describe("API Client", () => {
     it("getInvites calls GET /invites", async () => {
       mockFetch.mockResolvedValue(jsonResponse([]));
       const result = await api.getInvites();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/invites");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/invites");
       expect(fetchCallOpts().method).toBe("GET");
       expect(result).toEqual([]);
     });
@@ -558,7 +565,7 @@ describe("API Client", () => {
     it("createInvite calls POST /invites with data", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ id: 1, code: "abc123", max_uses: 5 }));
       const result = await api.createInvite({ max_uses: 5, expires_in_hours: 24 });
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/invites");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/invites");
       expect(fetchCallOpts().method).toBe("POST");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ max_uses: 5, expires_in_hours: 24 });
@@ -567,8 +574,13 @@ describe("API Client", () => {
 
     it("revokeInvite calls DELETE /invites/{code}", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
+<<<<<<< HEAD
       await api.revokeInvite("abc123");
       expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/invites/abc123");
+=======
+      await api.revokeInvite(10);
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/invites/10");
+>>>>>>> b66a9fc (edit server port to 8444)
       expect(fetchCallOpts().method).toBe("DELETE");
     });
   });
@@ -577,7 +589,7 @@ describe("API Client", () => {
     it("getEmoji calls GET /emoji", async () => {
       mockFetch.mockResolvedValue(jsonResponse([{ id: 1, name: "smile" }]));
       const result = await api.getEmoji();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/emoji");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/emoji");
       expect(fetchCallOpts().method).toBe("GET");
       expect(result).toEqual([{ id: 1, name: "smile" }]);
     });
@@ -585,7 +597,7 @@ describe("API Client", () => {
     it("deleteEmoji calls DELETE /emoji/{id}", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.deleteEmoji(5);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/emoji/5");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/emoji/5");
       expect(fetchCallOpts().method).toBe("DELETE");
     });
   });
@@ -594,7 +606,7 @@ describe("API Client", () => {
     it("getSounds calls GET /sounds", async () => {
       mockFetch.mockResolvedValue(jsonResponse([{ id: 1, name: "beep" }]));
       const result = await api.getSounds();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/sounds");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/sounds");
       expect(fetchCallOpts().method).toBe("GET");
       expect(result).toEqual([{ id: 1, name: "beep" }]);
     });
@@ -602,7 +614,7 @@ describe("API Client", () => {
     it("deleteSound calls DELETE /sounds/{id}", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.deleteSound(3);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/sounds/3");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/sounds/3");
       expect(fetchCallOpts().method).toBe("DELETE");
     });
   });
@@ -611,7 +623,7 @@ describe("API Client", () => {
     it("getDmChannels calls GET /dms", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ channels: [] }));
       const result = await api.getDmChannels();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/dms");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/dms");
       expect(fetchCallOpts().method).toBe("GET");
       expect(result).toEqual({ channels: [] });
     });
@@ -619,7 +631,7 @@ describe("API Client", () => {
     it("createDm calls POST /dms with recipient_id", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ channel: { id: 10, type: "dm" } }));
       const result = await api.createDm(42);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/dms");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/dms");
       expect(fetchCallOpts().method).toBe("POST");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ recipient_id: 42 });
@@ -629,7 +641,7 @@ describe("API Client", () => {
     it("closeDm calls DELETE /dms/{channelId}", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.closeDm(10);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/dms/10");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/dms/10");
       expect(fetchCallOpts().method).toBe("DELETE");
     });
   });
@@ -638,7 +650,7 @@ describe("API Client", () => {
     it("getVoiceCredentials calls GET /voice/credentials", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ url: "wss://lk", token: "vt" }));
       const result = await api.getVoiceCredentials();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/voice/credentials");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/voice/credentials");
       expect(fetchCallOpts().method).toBe("GET");
       expect(result).toEqual({ url: "wss://lk", token: "vt" });
     });
@@ -654,7 +666,7 @@ describe("API Client", () => {
     it("getHealth falls back to config host when no host arg", async () => {
       mockFetch.mockResolvedValue(jsonResponse({ status: "ok", version: "1.0.0", uptime: 50 }));
       await api.getHealth();
-      expect(fetchCallUrl()).toBe("https://localhost:8443/api/v1/health");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/api/v1/health");
     });
 
     it("getHealth throws ApiClientError on non-ok response", async () => {
@@ -732,7 +744,7 @@ describe("API Client", () => {
         topic: "General chat",
         position: 0,
       });
-      expect(fetchCallUrl()).toBe("https://localhost:8443/admin/api/channels");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/admin/api/channels");
       expect(fetchCallOpts().method).toBe("POST");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({
@@ -754,7 +766,7 @@ describe("API Client", () => {
         position: 2,
         archived: false,
       });
-      expect(fetchCallUrl()).toBe("https://localhost:8443/admin/api/channels/5");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/admin/api/channels/5");
       expect(fetchCallOpts().method).toBe("PATCH");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({
@@ -770,7 +782,7 @@ describe("API Client", () => {
     it("adminDeleteChannel calls DELETE /admin/api/channels/{id}", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.adminDeleteChannel(5);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/admin/api/channels/5");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/admin/api/channels/5");
       expect(fetchCallOpts().method).toBe("DELETE");
     });
   });
@@ -779,14 +791,14 @@ describe("API Client", () => {
     it("adminKickMember calls DELETE /admin/api/users/{id}/sessions", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.adminKickMember(42);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/admin/api/users/42/sessions");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/admin/api/users/42/sessions");
       expect(fetchCallOpts().method).toBe("DELETE");
     });
 
     it("adminBanMember calls PATCH /admin/api/users/{id} with banned:true", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.adminBanMember(42, "spamming");
-      expect(fetchCallUrl()).toBe("https://localhost:8443/admin/api/users/42");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/admin/api/users/42");
       expect(fetchCallOpts().method).toBe("PATCH");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ banned: true, ban_reason: "spamming" });
@@ -802,7 +814,7 @@ describe("API Client", () => {
     it("adminChangeRole calls PATCH /admin/api/users/{id} with role_id", async () => {
       mockFetch.mockResolvedValue(jsonResponse(undefined, 204));
       await api.adminChangeRole(42, 3);
-      expect(fetchCallUrl()).toBe("https://localhost:8443/admin/api/users/42");
+      expect(fetchCallUrl()).toBe("https://localhost:8444/admin/api/users/42");
       expect(fetchCallOpts().method).toBe("PATCH");
       const body = JSON.parse(fetchCallOpts().body as string);
       expect(body).toEqual({ role_id: 3 });
@@ -843,8 +855,15 @@ describe("API Client", () => {
 
   describe("client without onUnauthorized callback", () => {
     it("does not throw when onUnauthorized is undefined and 401 received", async () => {
+<<<<<<< HEAD
       const apiNoCallback = createApiClient({ host: "localhost:8443", token: "t" });
       mockFetch.mockResolvedValue(errorResponse(401, "UNAUTHORIZED", "No session"));
+=======
+      const apiNoCallback = createApiClient({ host: "localhost:8444", token: "t" });
+      mockFetch.mockResolvedValue(
+        errorResponse(401, "UNAUTHORIZED", "No session"),
+      );
+>>>>>>> b66a9fc (edit server port to 8444)
       await expect(apiNoCallback.getMe()).rejects.toMatchObject({
         status: 401,
         code: "UNAUTHORIZED",
